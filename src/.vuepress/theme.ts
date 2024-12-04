@@ -4,7 +4,7 @@ import { enNavbar } from "./navbar/index.js";
 import { enSidebar } from "./sidebar/index.js";
 
 export default hopeTheme({
-  hostname: "https://ixanadu13.github.io",
+  hostname: "https://iXanadu13.github.io",
 
   author: {
     name: "Xanadu13",
@@ -15,7 +15,7 @@ export default hopeTheme({
 
   logo: "https://theme-hope-assets.vuejs.press/logo.svg",
 
-  repo: "iXanadu13/xanadu13.github.io",
+  repo: "iXanadu13/iXanadu13.github.io",
 
   docsDir: "src",
 
