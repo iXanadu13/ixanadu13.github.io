@@ -1,0 +1,28 @@
+{
+  "name": "xanadu13-blog",
+  "description": "A project of vuepress-theme-hope",
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "docs:build": "vuepress-vite build src",
+    "docs:clean-dev": "vuepress-vite dev src --clean-cache",
+    "docs:dev": "vuepress-vite dev src",
+    "docs:update-package": "pnpm dlx vp-update"
+  },
+  "devDependencies": {
+    "@vuepress/bundler-vite": "2.0.0-rc.18",
+    "@vuepress/plugin-comment": "2.0.0-rc.61",
+    "@vuepress/plugin-docsearch": "2.0.0-rc.61",
+    "@vuepress/plugin-search": "2.0.0-rc.61",
+    "@vuepress/plugin-slimsearch": "2.0.0-rc.61",
+    "sass-embedded": "^1.79.5",
+    "vue": "^3.5.12",
+    "vuepress": "2.0.0-rc.18",
+    "vuepress-theme-hope": "2.0.0-rc.59"
+  },
+  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab",
+  "dependencies": {
+    "nodejs-jieba": "^0.2.1"
+  }
+}
