@@ -5,7 +5,7 @@ import { cut } from 'nodejs-jieba'
 import theme from "./theme.js";
 
 export default defineUserConfig({
-  base: "/Blog/",
+  base: "/",
 //   lang: 'zh-CN',
   locales: {
     "/": {
