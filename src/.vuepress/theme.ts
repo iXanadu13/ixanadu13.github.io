@@ -4,7 +4,7 @@ import { enNavbar } from "./navbar/index.js";
 import { enSidebar } from "./sidebar/index.js";
 
 export default hopeTheme({
-  hostname: "https://mister-hope.github.io",
+  hostname: "https://ixanadu13.github.io",
 
   author: {
     name: "Xanadu13",
