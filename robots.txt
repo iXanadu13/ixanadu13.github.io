@@ -2,4 +2,4 @@
 User-agent:*
 Disallow:
 
-Sitemap: https://iXanadu13.github.io/Blog/sitemap.xml
+Sitemap: https://iXanadu13.github.io/sitemap.xml
