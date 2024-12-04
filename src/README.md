@@ -3,7 +3,7 @@ home: true
 layout: BlogHome
 icon: home
 title: 博客主页
-heroImage: https://theme-hope-assets.vuejs.press/logo.svg
+heroImage: /assets/icon/skyblock.png
 heroText: Xanadu13's Blog
 heroFullScreen: true
 tagline: 记录你不想忘记的东西
