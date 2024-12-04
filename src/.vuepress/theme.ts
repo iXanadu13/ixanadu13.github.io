@@ -99,10 +99,10 @@ export default hopeTheme({
 
     comment: {
       provider: 'Giscus',
-      repo: "iXanadu13/xanadu13.github.io",
-      repoId: "R_kgDONW7qLg",
+      repo: "iXanadu13/ixanadu13.github.io",
+      repoId: "R_kgDONY3jLQ",
       category: "General",
-      categoryId: "DIC_kwDONW7qLs4Ck4_m",
+      categoryId: "DIC_kwDONY3jLc4Ck5Ii",
       lazyLoading: true,
       reactionsEnabled: true,
     },
