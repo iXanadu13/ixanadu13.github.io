@@ -8,7 +8,7 @@ export default hopeTheme({
 
   author: {
     name: "Xanadu13",
-    url: "https://mister-hope.com",
+    url: "https://github.com/iXanadu13",
   },
 
   iconAssets: "fontawesome-with-brands",
