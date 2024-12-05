@@ -6,8 +6,6 @@ category:
   - WSL
 tag:
   - WSL
-star: true
-sticky: true
 ---
 
 # WSL备忘录
