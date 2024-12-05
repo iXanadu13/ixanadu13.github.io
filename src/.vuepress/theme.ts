@@ -118,12 +118,12 @@ export default hopeTheme({
       size: true,
     },
 
-    // markdownMath: {
-    //   // install katex before enabling it
-    //   type: "katex",
-    //   // or install mathjax-full before enabling it
-    //   type: "mathjax",
-    // },
+    markdownMath: {
+      // install katex before enabling it
+      type: "katex",
+      // or install mathjax-full before enabling it
+      // type: "mathjax",
+    },
 
     // This features is enabled for demo, only preserve if you need it
     markdownTab: true,
@@ -155,6 +155,7 @@ export default hopeTheme({
       sup: true,
       tasklist: true,
       vPre: true,
+      footnote: true,
 
       // install chart.js before enabling it
       // chart: true,
