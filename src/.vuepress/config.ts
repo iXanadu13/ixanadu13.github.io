@@ -20,6 +20,12 @@ export default defineUserConfig({
     // },
   },
 
+  head: [
+    [
+      'link', { rel: 'icon', href: '/skyblock.png' }
+    ]
+  ],
+
   plugins: [
     slimsearchPlugin({
       // 索引全部内容
