@@ -67,7 +67,7 @@ export default hopeTheme({
       // sidebar
       sidebar: enSidebar,
 
-      footer: "默认页脚",
+      footer: "Made with ❤️",
 
       displayFooter: true,
 
