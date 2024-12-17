@@ -92,4 +92,4 @@ wsl -d kali-linux
 
 
 [介绍视频]: https://www.youtube.com/watch?v=PaEcQmgEz78
-[另一篇文章]: 在WSL中使用kali-linux踩坑记录.html
+[另一篇文章]: kali-linux-in-WSL.html
