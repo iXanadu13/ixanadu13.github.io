@@ -97,11 +97,10 @@ struct MetaString1
 
     const char *decrypt()
     {
-        // ((cout << "I=" << I << "\n"), ...);
         for (size_t i = 0; i < sizeof...(I); ++i)
             buffer_[i] = decrypt(buffer_[i]);
         buffer_[sizeof...(I)] = 0;
-        return buffer_;
+        return const_cast<const char*>(buffer_);
     }
 
 private:
@@ -109,8 +108,7 @@ private:
     constexpr char decrypt(char c) const { return encrypt(c); }
 
 private:
-    int seed_;
-    char buffer_[sizeof...(I) + 1];
+    volatile char buffer_[sizeof...(I) + 1];  // 避免编译器过度优化
 };
 
 template <std::size_t... I>
