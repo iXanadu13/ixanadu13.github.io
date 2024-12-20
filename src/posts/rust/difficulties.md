@@ -17,37 +17,6 @@ Rust的困难，不在于语言特性，而在于：
 - 遇到了坑时（生命周期、借用错误，自引用等）如何迅速、正确的解决
 - 大量的标准库API的熟练使用，这是保证开发效率的关键
 
-## 使用指定的Rust版本
-
-对于管理多版本，直接使用Rustup即可。在cmd中输入
-
-```bash
-rustup show
-```
-
-即可查看已安装的工具链版本，以及现在使用的默认版本。使用
-
-```bash
-rustup default 1.72.0-x86_64-pc-windows-gnu
-```
-
-即可切换到对应版本。
-
-但如果不想切换默认Rust版本，只想为某一项目使用指定版本，可以在项目所在目录新建`rust-toolchain`文件，在第一行写上版本限制，例如：
-- `1.76.0`
-- `1.76.0-x86_64-pc-windows-gnu`
-
-如果需要更详细地指定工具链版本，可以新建一个`rust-toolchain.toml`文件，例如：
-
-```toml
-[toolchain]
-channel = "nightly-2024-11-07"
-components = [ "rustfmt", "rust-analyzer", "miri", "rust-docs", "clippy", "rust-src"]
-profile = "default"
-```
-
-以上配置将在此项目中启用nightly特性。
-
 ## 使用原生指针和unsafe实现自引用
 
 algo.course.rs上的实现，在此记录一下
@@ -331,6 +300,19 @@ fn main() {
     
 }
 ```
+
+## 将局部变量生命周期变为'static
+
+### Problem
+
+![](/assets/images/rust/make-variable-static1.png)
+
+### Solution
+
+使用`leak`、`Box::leak`等方法：
+
+![](/assets/images/rust/make-variable-static2.png)
+
 
 ## 全局变量
 
