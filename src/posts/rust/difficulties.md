@@ -314,6 +314,60 @@ fn main() {
 ![](/assets/images/rust/make-variable-static2.png)
 
 
+## 错误处理相关
+
+### 将Option类型转换为Result类型
+
+使用`ok_or`方法：
+
+```rust
+fn foo(abs_path: &str) -> Result<String, String> {
+    let path = PathBuf::from(abs_path);
+    let relative = path.file_name()
+        .ok_or(format!("Failed to get relative_name for `{}`", abs_path))?;
+    let res = relative.to_str().unwrap();
+    Ok(res.to_owned())
+}
+```
+
+### 将Result类型转换为Option类型
+
+使用`ok`方法：
+
+```rust
+fn divide(dividend: f64, divisor: f64) -> Result<f64, String> {
+    if divisor == 0.0 {
+        Err(String::from("除数不能为零"))
+    } else {
+        Ok(dividend / divisor)
+    }
+}
+#[test]
+fn test_divide() {
+    let result_ok: Result<f64, String> = divide(10.0, 2.0);
+    let option_some: Option<f64> = result_ok.ok();
+    assert_eq!(option_some, Some(5.0));
+
+    let result_err: Result<f64, String> = divide(10.0, 0.0);
+    let option_none: Option<f64> = result_err.ok();
+    assert_eq!(option_none, None);
+}
+```
+
+### Option#transpose()
+
+将`Option<Result<T, E>>`转换为`Result<Option<T>, E>`：
+
+```rust
+#[derive(Debug, Eq, PartialEq)]
+struct SomeErr;
+
+let x: Result<Option<i32>, SomeErr> = Ok(Some(5));
+let y: Option<Result<i32, SomeErr>> = Some(Ok(5));
+assert_eq!(x, y.transpose());
+```
+
+
 ## 全局变量
 
 在Rust中，出于安全性的考量，全局变量的使用并不像C++那样简单。这样很容易理解，如果定义一个不受保护的全局变量，在多个线程同时修改、写的同时有线程读等情况下，很容易出现脏数据。
@@ -377,6 +431,9 @@ fn main() {
     println!("The entry for `1` is \"{}\".", hashmap().get(&1).unwrap());
 }
 ```
+
+使用unsafe裸指针：
+https://stackoverflow.com/questions/63433547/more-efficient-alternative-to-thread-local-and-lazy-static
 
 ### 运行时需要修改
 
