@@ -34,8 +34,8 @@ jobs:
 
       - name: 安装依赖
         run: |
+          pnpm i -g corepack@latest
           corepack enable
-          corepack prepare pnpm@latest --activate
           pnpm install --frozen-lockfile
 
       - name: 构建文档
