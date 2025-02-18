@@ -29,11 +29,12 @@ jobs:
       - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
           cache: pnpm
 
       - name: 安装依赖
         run: |
+          pnpm i -g corepack@latest
           corepack enable
           pnpm install --frozen-lockfile
 
