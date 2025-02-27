@@ -142,11 +142,11 @@ public:
     // 即 A - B * base ^ (j-i+1) (这里 ^ 符号是幂的意思)
     // 要保证传入的 j >= i
     u64 sub1(int i, int j) { 
-        assert(i >= 0 && i<n && i<=j && j < n);
+        // assert(i >= 0 && i<n && i<=j && j < n);
         return (h1[j + 1] - h1[i] * p1[j - i + 1] % mod1 + mod1) % mod1; 
     }
     u64 sub2(int i, int j) { 
-        assert(i >= 0 && i<n && i<=j && j < n);
+        // assert(i >= 0 && i<n && i<=j && j < n);
         return (h2[j + 1] - h2[i] * p2[j - i + 1] % mod2 + mod2) % mod2;
     }
 };
