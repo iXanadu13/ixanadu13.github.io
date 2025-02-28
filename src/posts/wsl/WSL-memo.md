@@ -86,6 +86,20 @@ wsl -d kali-linux
 
 目前已知kali-linux wsl可以通过类似远程桌面的方式连接，具体见我的[另一篇文章]：
 
+## 在VSCode中连接WSL，写入权限问题
+
+使用以下指令修改目录的所有权即可，注意把`<username>`替换为你的用户名：
+
+```bash
+sudo chown -R <username> /dir
+```
+
+例如，
+
+```bash
+sudo chown -R xanadu13 /usr/local/os
+```
+
 ## Ref
 
 - https://www.jianshu.com/p/2a2d16029dc2
