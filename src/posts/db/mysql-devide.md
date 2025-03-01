@@ -10,7 +10,7 @@ category:
 在@pdai的这篇[文章](https://pdai.tech/md/db/sql-mysql/sql-mysql-devide.html)中提到，`MySQL`中`Sharding`策略主要分为三种：哈希取模、范围分片和映射表。
 但作者没有细讲各自的优缺点以及应用场景，在此总结了一下：
 
-deepseek的思考过程：
+## deepseek的思考过程
 > 嗯，我需要详细介绍一下MySQL分表分库中的Sharding策略，特别是哈希取模、范围分片和映射表这三种方法。首先，我得确保自己理解这些策略的基本概念，然后考虑如何向别人解释清楚。让我先回忆一下相关知识，再逐步整理思路。
 >
 > 
