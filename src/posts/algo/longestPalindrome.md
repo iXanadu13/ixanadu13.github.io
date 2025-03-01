@@ -246,5 +246,5 @@ int main()
 
 ## Ref
 
-- https://oi-wiki.org/string/hash/#%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2
-- https://writings.sh/post/algorithm-longest-palindromic-substring#%E5%89%8D%E7%BC%80%E5%93%88%E5%B8%8C%E6%B3%95--%E4%BA%8C%E5%88%86
+- [https://oi-wiki.org/string/hash/#最长回文子串](https://oi-wiki.org/string/hash/#最长回文子串)
+- [https://writings.sh/post/algorithm-longest-palindromic-substring#前缀哈希法--二分](https://writings.sh/post/algorithm-longest-palindromic-substring#前缀哈希法--二分)
