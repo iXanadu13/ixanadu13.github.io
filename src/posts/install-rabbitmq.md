@@ -74,3 +74,9 @@ ubuntu ERROR: epmd error for host Xanadu: address (cannot connect to host/port)
 
 解决方案：[https://serverfault.com/questions/729888/rabbitmq-server-not-starting-on-debian-jessie](https://serverfault.com/questions/729888/rabbitmq-server-not-starting-on-debian-jessie)
 
+最后再设置一个开机自启动：
+
+```bash
+sudo systemctl enable rabbitmq-server
+```
+
