@@ -91,3 +91,20 @@ sudo rabbitmq-plugins enable rabbitmq_management
 
 之后就能在主机浏览器通过`http://localhost:15672`访问了，如果访问不了，请检查是否放行了对应端口，如果是在自己电脑上，直接关闭防火墙也行。
 
+![](/assets/images/rabbitmq-login.png)
+
+## 添加账号
+
+```bash
+# 添加账号
+sudo rabbitmqctl add_user admin 123456
+# 设置权限
+sudo rabbitmqctl set_user_tags admin administrator
+sudo rabbitmqctl set_permissions -p "/" admin ".*" ".*" ".*"
+# 查看当前所有账号
+sudo rabbitmqctl list_users
+```
+
+然后就能在浏览器中登录了：
+
+![](/assets/images/rabbitmq-management.png)
