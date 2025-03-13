@@ -74,9 +74,20 @@ ubuntu ERROR: epmd error for host Xanadu: address (cannot connect to host/port)
 
 解决方案：[https://serverfault.com/questions/729888/rabbitmq-server-not-starting-on-debian-jessie](https://serverfault.com/questions/729888/rabbitmq-server-not-starting-on-debian-jessie)
 
-最后再设置一个开机自启动：
 
 ```bash
+# 查看服务状态
+sudo systemctl status rabbitmq-server
+# 设置开机自启动
 sudo systemctl enable rabbitmq-server
 ```
+
+```bash
+# 关闭rabbitmq服务
+sudo systemctl stop rabbitmq-server
+# 安装图形管理插件
+sudo rabbitmq-plugins enable rabbitmq_management
+```
+
+之后就能在主机浏览器通过`http://localhost:15672`访问了，如果访问不了，请检查是否放行了对应端口，如果是在自己电脑上，直接关闭防火墙也行。
 
