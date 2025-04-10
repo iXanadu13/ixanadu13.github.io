@@ -453,6 +453,102 @@ fn main() {
 
 当然，每次访问时会有轻微的性能损失，为了支持多线程这是不可避免的。
 
+## 遍历集合时需要移除某些元素
+
+### 移除确定范围的元素
+
+```rust
+let mut v = vec![1, 2, 3];
+let u: Vec<_> = v.drain(1..).collect();
+assert_eq!(v, &[1]);
+assert_eq!(u, &[2, 3]);
+```
+
+### Vec::drain_filter
+
+无法在stable下使用：[https://rustwiki.org/zh-CN/src/alloc/vec/drain_filter.rs.html](https://rustwiki.org/zh-CN/src/alloc/vec/drain_filter.rs.html)
+
+### Vec::retain
+
+适用于**不需要关心哪些元素被删除**的情况
+
+```rust
+let mut vecc = vec![1, 2, 3, 4];
+vecc.retain(|&x| x != 1);
+assert_eq!(vecc, [2, 3, 4]);
+```
+
+### 使用swap换出元素
+
+```rust
+let mut vecc = vec![1, 2, 3, 4];
+
+let mut idx_wr = 0usize; // 写指针
+for idx_rd in 0..vecc.len() {
+    // 读指针
+    if !(vecc[idx_rd] == 1) {
+        vecc.swap(idx_wr, idx_rd);
+        idx_wr += 1;
+    }
+}
+// 在truncate之前可以操作即将被删除的元素
+vecc.truncate(idx_wr);
+assert_eq!(vecc, [2, 3, 4]);
+```
+
+或者用swap_remove，缺点是容易写错：
+
+```rust
+// 正确写法
+let mut idx = 0;
+while idx < bank.len() {
+    let nxt = &bank[idx];
+    if Solution::ok(&str, nxt) {
+        let nxt = bank.swap_remove(idx);
+        q.push_back((nxt, step + 1));
+    } else {
+        idx += 1;
+    }
+}
+```
+
+**错误写法1：已读取的`bank.len()`在循环中不会更新**
+
+```rust
+for idx in 0..bank.len() {
+    ...
+}
+```
+
+**错误写法2：如果删除了元素，不应该右移idx指针**
+
+```rust
+let mut idx = 0;
+while idx < bank.len() {
+    let nxt = &bank[idx];
+    if Solution::ok(&str, nxt) {
+        let nxt = bank.swap_remove(idx);
+        q.push_back((nxt, step + 1));
+    }
+    idx += 1;
+}
+```
+
+
+### 顺便贴一个cpp的写法
+
+```cpp
+for (auto it = bank.begin(); it != bank.end(); ) {
+    if(ok(*it)) {
+        it = bank.erase(it);
+    } else{
+        ++it;
+    }
+}
+
+```
+
+
 ## Ref
 - https://github.com/rustcn-org/rust-algos/blob/fbcdccf3e8178a9039329562c0de0fd01a3372fb/src/unsafe/self-ref.md
 - https://crates.io/crates/lazy_static
