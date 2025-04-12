@@ -25,22 +25,20 @@ $N$个朋友参加生日派对，相互认识的坐一桌，问最少需要几�
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-const int N = 1005;
-int fa[N];
-int find(int x){
-    if(fa[x]!=x) fa[x]=find(fa[x]);
-    return fa[x];
+int fa[1005];
+int find(int x1){
+    if(fa[x1]!=x1) fa[x1]=find(fa[x1]);
+    return fa[x1];
 }
-int main(){
+int main() {
     ios::sync_with_stdio(false);
-    cin.tie(0); cout.tie(0);
-    int tt,n,m,x,y;
-    cin>>tt;
-    while (tt--){
+    cin.tie(0),cout.tie(0);
+    int t,n,m,x,y;
+    cin>>t;
+    while (t--){
         cin>>n>>m;
-        for(int i=1;i<=n;i++) fa[i]=i;
-        for(int i=1;i<=m;i++){
+        iota(fa+1, fa+n+1, 1);
+        while (m--){
             cin>>x>>y;
             fa[find(x)]=find(y);
         }
@@ -50,6 +48,7 @@ int main(){
         }
         cout<<cnt<<'\n';
     }
+    return 0;
 }
 ```
 
