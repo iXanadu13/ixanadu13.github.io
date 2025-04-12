@@ -2,10 +2,10 @@
 icon: pen-to-square
 date: 2024-11-19
 category:
-  - luogu
+  - C++
 tag:
   - algorithm
-  - cpp
+  - luogu
 star: true
 sticky: true
 ---

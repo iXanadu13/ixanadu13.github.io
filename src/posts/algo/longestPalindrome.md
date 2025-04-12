@@ -1,10 +1,11 @@
 ---
 icon: pen-to-square
 date: 2025-02-26
+category:
+  - C++
 tag:
   - algorithm
   - 动态规划
-  - cpp
 star: true
 sticky: true
 ---

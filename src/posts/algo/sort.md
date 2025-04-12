@@ -1,9 +1,10 @@
 ---
 icon: pen-to-square
 date: 2025-02-24
+category:
+  - C++
 tag:
   - algorithm
-  - cpp
 ---
 
 # 常见排序算法及其实现
