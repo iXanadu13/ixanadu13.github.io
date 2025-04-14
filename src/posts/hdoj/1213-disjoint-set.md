@@ -3,10 +3,10 @@ icon: pen-to-square
 date: 2023-10-17
 category:
   - hdoj
+  - C++
 tag:
   - algorithm
   - 并查集
-  - cpp
 star: true
 ---
 
