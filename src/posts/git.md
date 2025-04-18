@@ -26,16 +26,16 @@ git pull
 
 ## 强制回退commit并删除历史记录
 
+```bash
+git reset --hard commit_id
+git push -f
+```
+
 ::: danger
 
 危险的操作！注意这会永远丢失当前工作区未保存的提交、被你强制回退的提交。
 
 如果需要保留历史，请使用git revert
-
-```bash
-git reset --hard commit_id
-git push -f
-```
 
 :::
 
