@@ -14,7 +14,7 @@ tag:
 
 <details>
 
-[Solution](hdoj/1213-disjoint-set.html)
+[Solution](../hdoj/1213-disjoint-set.html)
 
 </details>
 
