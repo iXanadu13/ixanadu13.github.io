@@ -64,43 +64,158 @@ TODO
 ## 归并排序
 ```cpp
 #include <bits/stdc++.h>
-typedef long long ll;
+using i64 = long long;
 using namespace std;
-constexpr int N = 1e5 + 5;
-int a[N], b[N];
-void merge(int l, int mid, int r){
-    if (l==r) return;
-    if (l+1 == r){
-        if (a[l] > a[r]){
-            swap(a[l], a[r]);
-        }
+typedef pair<int, int> pii;
+constexpr int N = 1e5 + 10;
+vector<int> b(N);
+void merge_sort(vector<int> &arr, int l, int r) {
+    if (l >= r) return;
+    if (l + 1 == r) {
+        if (arr[l] > arr[r]) swap(arr[l], arr[r]);
         return;
     }
-    merge(l, (l+mid)>>1, mid);
-    merge(mid+1, (mid+1+r)>>1, r);
-    int i = l, j = mid+1;
-    for (int k = l; k <= r; ++k) {
-        if (j>r || i<=mid && a[i]<=a[j]) b[k]=a[i++];
-        else b[k]=a[j++];
+    int mid = (l + r) >> 1;
+    merge_sort(arr, l, mid);
+    merge_sort(arr, mid+1, r);
+    int left = l, right = mid+1;
+    for (int i = l; i <= r; ++i) {
+        if (left <= mid && right <= r) {
+            if (arr[left] < arr[right]) b[i] = arr[left++];
+            else b[i] = arr[right++];
+        } else if (left <= mid) {
+            b[i] = arr[left++];
+        } else {
+            b[i] = arr[right++];
+        }
     }
-    memcpy(a+l, b+l, (r-l+1)* sizeof(int));
-//    for(int k=l;k<=r;k++) a[k]=b[k];
+    for (int i = l; i <= r; ++i) {
+        arr[i] = b[i];
+    }
 }
-int main(){
+void solve(){
+    int n; cin >> n;
+    vector<int> arr(n);
+    for (auto &e : arr)
+        cin >> e;
+    
+    merge_sort(arr, 0, arr.size()-1);
+    for (auto &e : arr)
+        cout << e << ' ';
+}
+int main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("data.in", "r", stdin);
+    freopen("data.out", "w", stdout);
+#endif
     ios::sync_with_stdio(false);
-    cin.tie(0),cout.tie(0);
-    int n;
-    cin >> n;
-    for (int i = 1; i <= n; ++i)
-        cin >> a[i];
-    merge(1, (1+n)>>1, n);
-    for (int i = 1; i <= n; ++i)
-        cout << a[i] << ' ';
+    cin.tie(0); cout.tie(0);
+    solve();
+    return 0;
+}
+
+
+```
+## 快速排序
+
+每次取`arr[l]`为枢轴：
+
+```cpp
+#include <bits/stdc++.h>
+using i64 = long long;
+using namespace std;
+typedef pair<int, int> pii;
+constexpr int N = 1e5 + 10;
+mt19937_64 rng(random_device{}());
+int partition(vector<int>& arr, int l, int r) {
+    int p = arr[l];
+    while (l < r) {
+        while (l < r && arr[r] >= p) --r;
+        swap(arr[l], arr[r]);
+        while (l < r && arr[l] <= p) ++l;
+        swap(arr[l], arr[r]); 
+    }
+    return l;
+}
+void quick_sort(vector<int> &arr, int l, int r) {
+    int mid = partition(arr, l, r);
+    if (l < mid - 1) quick_sort(arr, l, mid-1);
+    if (mid + 1 < r) quick_sort(arr, mid+1, r);
+}
+void solve(){
+    int n; cin >> n;
+    vector<int> arr(n);
+    for (auto &e : arr)
+        cin >> e;
+    
+    quick_sort(arr, 0, arr.size() - 1);
+    for (auto &e : arr)
+        cout << e << ' ';
+}
+int main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("data.in", "r", stdin);
+    freopen("data.out", "w", stdout);
+#endif
+    ios::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    solve();
     return 0;
 }
 ```
-## 快速排序
-TODO
+
+随机挑选枢轴：
+
+```cpp
+#include <bits/stdc++.h>
+using i64 = long long;
+using namespace std;
+typedef pair<int, int> pii;
+constexpr int N = 1e5 + 10;
+mt19937_64 rng(random_device{}());
+int partition(vector<int> &arr, int l, int r) {
+    int mid = l + rng() % (r-l+1);
+    int p = arr[mid];
+    swap(arr[l], arr[mid]);
+    while (l < r){
+        while (l < r && arr[r] >= p) --r;
+        swap(arr[l], arr[r]);
+        while (l < r && arr[l] <= p) ++l;
+        swap(arr[l], arr[r]);
+    }
+    assert(l == r);
+    return l;
+}
+void quick_sort(vector<int> &arr, int l, int r) {
+    int mid = partition(arr, l, r);
+    if (l < mid - 1) quick_sort(arr, l, mid-1);
+    if (mid + 1 < r) quick_sort(arr, mid+1, r);
+}
+void solve(){
+    int n; cin >> n;
+    vector<int> arr(n);
+    for (auto &e : arr)
+        cin >> e;
+    
+    quick_sort(arr, 0, arr.size() - 1);
+    for (auto &e : arr)
+        cout << e << ' ';
+}
+int main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("data.in", "r", stdin);
+    freopen("data.out", "w", stdout);
+#endif
+    ios::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    solve();
+    return 0;
+}
+```
+
 ## 堆排序
 TODO
 ## 计数排序
