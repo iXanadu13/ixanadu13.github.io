@@ -217,7 +217,57 @@ int main()
 ```
 
 ## 堆排序
-TODO
+```cpp
+#include <bits/stdc++.h>
+using i64 = long long;
+using namespace std;
+typedef pair<int, int> pii;
+constexpr int N = 1e5 + 10;
+mt19937_64 rng(random_device{}());
+/// 堆的长度为 n, 从节点 i 开始,从顶至底堆化
+void siftdown(vector<int> &arr, int n, int i) {
+    while (true) {
+        int l = i * 2 + 1;
+        int r = i * 2 + 2;
+        int mx = i;
+        if (l < n && arr[l] > arr[mx]) mx = l;
+        if (r < n && arr[r] > arr[mx]) mx = r;
+        if (mx == i) break;
+        swap(arr[mx], arr[i]);
+        i = mx;
+    }
+}
+void heap_sort(vector<int> &arr) {
+    int n = arr.size();
+    for (int i = n/2-1; i >= 0; --i)
+        siftdown(arr, n, i);
+    for (int i = n-1; i >= 1; --i) {
+        swap(arr[0], arr[i]);
+        siftdown(arr, i, 0);
+    }
+}
+void solve(){
+    int n; cin >> n;
+    vector<int> arr(n);
+    for (auto &e : arr)
+        cin >> e;
+    
+    heap_sort(arr);
+    for (auto &e : arr)
+        cout << e << ' ';
+}
+int main()
+{
+#ifndef ONLINE_JUDGE
+    freopen("data.in", "r", stdin);
+    freopen("data.out", "w", stdout);
+#endif
+    ios::sync_with_stdio(false);
+    cin.tie(0); cout.tie(0);
+    solve();
+    return 0;
+}
+```
 ## 计数排序
 TODO
 ## 桶排序
