@@ -435,6 +435,26 @@ fn main() {
 使用unsafe裸指针：
 https://stackoverflow.com/questions/63433547/more-efficient-alternative-to-thread-local-and-lazy-static
 
+
+最优实践是使用[phf](https://crates.io/crates/phf)库，在编译期生成「完美哈希表」，零运行时不存在锁开销：
+
+```rs
+static KEYWORDS: phf::Map<&'static str, Tok> = phf::phf_map! {
+    ".version" => Tok::Version,
+    ".class" => Tok::Class,
+    ".super" => Tok::Super,
+    ".implements" => Tok::Implements,
+    ".sourcefile" => Tok::SourceFile,
+    ".field" => Tok::Field,
+    ".method" => Tok::Method,
+    ".code" => Tok::Code,
+    ".line" => Tok::LineNumber(0),
+    ".local" => Tok::Local,
+    ".stack" => Tok::Stack,
+    ".end" => Tok::End,
+};
+```
+
 ### 运行时需要修改
 
 ```rust
