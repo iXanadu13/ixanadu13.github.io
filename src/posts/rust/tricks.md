@@ -57,5 +57,45 @@ pub struct Graph {
 }
 ```
 
+## Rust中的@lombok.Delegate
+
+```rs
+#[derive(Default)]
+struct A {
+    inner: B,
+}
+
+#[derive(Default)]
+struct B {
+    a: i32,
+    b: u64,
+}
+impl B {
+    pub fn hello(&self) {
+        todo!()
+    }
+}
+
+fn test() {
+    let a = A::default();
+    a.hello();
+}
+
+// 实现了以下两个方法后，可以把self.inner的方法代理到外部对象
+impl std::ops::Deref for A {
+    type Target = B;
+
+    fn deref(&self) -> &Self::Target {
+        &self.inner
+    }
+}
+impl<'a> std::ops::DerefMut for A {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.inner
+    }
+}
+```
+
+
 ## Ref
 - https://github.com/pku-minic/koopa/blob/master/src/ir/dfg.rs#L15
