@@ -20,6 +20,32 @@ sticky: true
 
 顺序遍历，每次通过$O(n)$时间复杂度找到以当前字符为中心的最长回文子串，所有结果中取最长。
 
+```cpp
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int ml = 0, mx = 0;
+        int n = s.size();
+        auto f = [&](int left, int right) {
+            // cout << left << ' ' << right << '\n';
+            while (left > 0 && right < n-1 && s[left-1] == s[right+1]){
+                --left, ++right;
+            }
+            if (right - left + 1 > mx) {
+                mx = right - left + 1;
+                ml = left;
+                // cout << "mx, ml = " << mx << ' ' << ml << '\n';
+            }
+        };
+        for (int i = 0; i < n; ++i) {
+            f(i, i);
+            if (i+1 < n && s[i] == s[i+1]) f(i, i+1);
+        }
+        return s.substr(ml, mx);
+    }
+};
+```
+
 ## Solution 2: 动态规划
 
 时间复杂度：$O(n^2)$
