@@ -5,6 +5,7 @@ category:
   - Rust
 tag:
   - data structure
+star: true
 ---
 
 # Rust 学习笔记

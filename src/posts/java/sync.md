@@ -9,7 +9,7 @@ tag:
 
 # Java线程同步方法对比
 
-|　　　　　|Thread#sleep|Object#wait|LockSupport#park|
+||Thread#sleep|Object#wait|LockSupport#park|
 |:---:|:---:|:---:|:---:|
 |调用方式|抛出中断异常|必须在synchronized块中、抛出中断异常。如果当前线程不是对象锁的拥有者，调用wait/notify会抛出 IllegalMonitorStateException 异常|无限制，无抛出|
 |阻塞时是否释放当前线程占有的锁|**不释放**|**释放**|**不释放**|

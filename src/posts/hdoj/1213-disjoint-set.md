@@ -7,7 +7,6 @@ category:
 tag:
   - algorithm
   - 并查集
-star: true
 ---
 
 # HDOJ-1213 How Many Tables
