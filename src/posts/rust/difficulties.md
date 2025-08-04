@@ -568,6 +568,60 @@ for (auto it = bank.begin(); it != bank.end(); ) {
 
 ```
 
+## 在多线程中使用非'static的变量引用
+
+实现了Copy的对象，可以多次move：
+
+```rust
+use std::{thread, time::Duration};
+
+fn main() {
+    // let s = String::from("hello");
+    for i in 0..5 {
+        thread::spawn(move || {
+            thread::sleep(Duration::from_secs(1));
+            println!("{}", i);
+        });
+    }
+}
+```
+
+下面这段代码会编译失败：
+
+```rust
+use std::{thread, time::Duration};
+
+fn main() {
+    let s = String::from("hello");
+    for _ in 0..5 {
+        thread::spawn(move || {
+            thread::sleep(Duration::from_secs(1));
+            println!("{}", s);
+        });
+    }
+}
+```
+
+而这里我们根本不需要Clone字符串，只需要传递引用，因此可以使用`std::thread::scope`，其可以在创建的线程中引用**生命周期长于`'scope`的变量**（即不强制需要'static）。
+
+另一个区别是使用`std::thread::scope`创建的线程会在`'scope`作用域结束前自动join，而前面两段代码由于没有调用.join
+，如果你运行它们无法得到任何输出。
+
+```rust
+use std::{thread, time::Duration};
+
+fn main() {
+    let str = String::from("hello");
+    thread::scope(|s| {
+        for _ in 0..5 {
+            s.spawn(|| {
+                thread::sleep(Duration::from_secs(1));
+                println!("{}", str);
+            });
+        }
+    });
+}
+```
 
 ## Ref
 - https://github.com/rustcn-org/rust-algos/blob/fbcdccf3e8178a9039329562c0de0fd01a3372fb/src/unsafe/self-ref.md
