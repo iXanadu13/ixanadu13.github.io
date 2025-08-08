@@ -335,7 +335,7 @@ fn main() {
 }
 ```
 
-下面这段代码会编译失败：
+否则只能每次调用clone方法：
 
 ```rust
 use std::{thread, time::Duration};
@@ -343,6 +343,7 @@ use std::{thread, time::Duration};
 fn main() {
     let s = String::from("hello");
     for _ in 0..5 {
+        let s = s.clone();
         thread::spawn(move || {
             thread::sleep(Duration::from_secs(1));
             println!("{}", s);
@@ -351,7 +352,24 @@ fn main() {
 }
 ```
 
-而这里我们根本不需要Clone字符串，只需要传递引用，因此可以使用`std::thread::scope`，其可以在创建的线程中引用**生命周期长于`'scope`的变量**（即不强制需要'static）。
+而这样会多次为整个字符串分配内存，这是我们不希望看到的。可以使用`std::sync::Arc`优化：
+
+```rust
+use std::{sync::Arc, thread, time::Duration};
+
+fn main() {
+    let s = Arc::new(String::from("hello"));
+    for _ in 0..5 {
+        let s = s.clone();
+        thread::spawn(move || {
+            thread::sleep(Duration::from_secs(1));
+            println!("{}", s);
+        });
+    }
+}
+```
+
+如果我们只希望传递引用，可以使用`std::thread::scope`，其可以在创建的线程中引用**生命周期长于`'scope`的变量**（即不强制需要'static）。
 
 另一个区别是使用`std::thread::scope`创建的线程会在`'scope`作用域结束前自动join，而前面两段代码由于没有调用.join，如果你运行它们无法得到任何输出。
 
