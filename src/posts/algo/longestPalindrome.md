@@ -7,7 +7,6 @@ tag:
   - algorithm
   - 动态规划
 star: true
-sticky: true
 ---
 
 # 最长回文子串

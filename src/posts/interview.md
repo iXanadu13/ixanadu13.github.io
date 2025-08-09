@@ -1,4 +1,5 @@
 ---
+icon: pen-to-square
 date: 2025-08-04
 
 ---

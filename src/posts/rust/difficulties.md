@@ -6,6 +6,7 @@ category:
 tag:
   - data structure
 star: true
+sticky: true
 ---
 
 # Rust 学习笔记

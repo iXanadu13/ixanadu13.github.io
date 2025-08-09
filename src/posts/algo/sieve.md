@@ -7,7 +7,6 @@ tag:
   - algorithm
   - luogu
 star: true
-sticky: true
 ---
 
 # 素数筛
