@@ -16,7 +16,7 @@ using i64 = long long;
 typedef pair<int, int> pii;
 mt19937_64 rng(random_device{}());
 template <class T>
-class Rc {
+class Arc {
 private:
     int* cnt;
     T* ptr;
@@ -38,11 +38,11 @@ private:
         if (del) delete lock;
     }
 public:
-    Rc(T* ptr = nullptr):cnt(new int(1)), ptr(ptr), lock(new mutex) {}
-    Rc(const Rc<T> &lhs):cnt(lhs.cnt), ptr(lhs.ptr), lock(lhs.lock) {
+    Arc(T* ptr = nullptr):cnt(new int(1)), ptr(ptr), lock(new mutex) {}
+    Arc(const Arc<T> &lhs):cnt(lhs.cnt), ptr(lhs.ptr), lock(lhs.lock) {
         inc();
     }
-    Rc<T>& operator =(const Rc<T>& rhs) {
+    Arc<T>& operator =(const Arc<T>& rhs) {
         if (ptr != rhs.ptr) {
             release();
             cnt = rhs.cnt;
@@ -61,12 +61,12 @@ public:
     T* get() {
         return ptr;
     }
-    ~Rc() {
+    ~Arc() {
         release();
     }
 };
 void solve() {
-    auto ptr = Rc<vector<int>>(new vector<int>);
+    auto ptr = Arc<vector<int>>(new vector<int>);
     ptr->push_back(1);
     ptr->push_back(2);
     ptr->push_back(3);
