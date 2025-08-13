@@ -39,3 +39,9 @@ void solve() {
     assert(kmp(str1, str2) == 2);
 }
 ```
+
+## 相关题目
+
+- [洛谷P3375](https://www.luogu.com.cn/problem/P3375)
+- [LC 3036](https://leetcode.cn/problems/number-of-subarrays-that-match-a-pattern-ii/description/)
+
