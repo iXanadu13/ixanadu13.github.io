@@ -74,3 +74,7 @@ int main() {
 }
 ```
 
+### KMP算法
+
+[传送门](../algo/kmp.html)
+
