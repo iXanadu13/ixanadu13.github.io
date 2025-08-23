@@ -64,3 +64,7 @@ int main() {
     return 0;
 }
 ```
+
+## Ref
+
+- https://oi-wiki.org/math/combinatorics/catalan/
