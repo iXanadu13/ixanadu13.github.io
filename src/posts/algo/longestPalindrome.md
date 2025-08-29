@@ -5,7 +5,7 @@ category:
   - C++
 tag:
   - algorithm
-  - 动态规划
+  - dp
 star: true
 ---
 
