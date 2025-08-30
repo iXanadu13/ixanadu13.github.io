@@ -8,7 +8,7 @@ tag:
   - dp
 ---
 
-# Codeforces Round 1044 (Div. 2 A-D)
+# Codeforces Round 1044 (Div. 2 A-E)
 
 ## [A. Redstone?](https://codeforces.com/contest/2133/problem/A)
 
@@ -160,6 +160,88 @@ void solve() {
         return dp[i] = res;
     };
     cout << dfs(dfs, n) << '\n';
+}
+```
+
+时间复杂度：$O(n)$
+
+## [E. I Yearned For The Mines](https://codeforces.com/contest/2133/problem/E)
+
+题目大意：在一棵树上找Herobrine，Herobrine每次都可以移动到相邻节点或原地不动，你至多做$\lfloor \frac{5}{4} \cdot n \rfloor$次以下两种操作：
+
+- `1 x`：搜索x节点，且Herobrine下一次不能走到刚刚搜过的x位置上
+- `2 x`：断开所有x节点和其他相邻节点的边
+
+给出一种具体的搜索方案。
+
+思路：注意到对包含n个节点的链进行搜索时，只需要n步，因此考虑把整棵树拆成一条条链。我们可以以任意节点为root对整棵树染色：
+
+- 如果一个节点有大于等于3个子节点为绿色，或者有一个黄色子节点，将其染成黑色
+- 如果一个节点有2个绿色子节点，将其染成黄色
+- 不满足以上两种情况的为绿色节点
+
+染色后只需要先对所有黑色节点做操作2，然后整棵树被分割为链，再从所有叶子节点出发搜索依次每条链即可。
+
+
+```cpp
+void solve() {
+    int n;
+    cin >> n;
+    vector<vector<int>> g(n + 1);
+    // 1-green 2-yellow 3-black
+    vector<int> color(n + 1);
+    for (int i = 1; i < n; ++i) {
+        int x, y;
+        cin >> x >> y;
+        g[x].push_back(y);
+        g[y].push_back(x);
+    }
+    vector<pair<int, int>> ans;
+    vector<int> st;
+
+    auto dfs1 = [&](this auto &&self, int fa, int x) -> int {
+        int green = 0, yellow = 0;
+        for (int y : g[x]) {
+            if (y == fa) continue;
+            int c = self(x, y);
+            if (c == 1) ++green;
+            else if (c == 2) ++yellow;
+        }
+        if (green >= 3 || yellow) {
+            color[x] = 3;
+            ans.emplace_back(2, x);
+        }
+        else if (green == 2) color[x] = 2;
+        else color[x] = 1;
+        if (green + yellow == 0) {
+            st.push_back(x);
+        }
+        return color[x];
+    };
+    dfs1(-1, 1);
+
+    vector<bool> vis(n + 1);
+    auto dfs2 = [&](this auto &&self, int x) -> void {
+        if (vis[x]) return;
+        vis[x] = 1;
+        ans.emplace_back(1, x);
+        for (int y : g[x]) {
+            if (color[y] == 3) continue;
+            self(y);
+        }
+    };
+
+    for (int i = 1; i <= n; ++i) {
+        if (color[i] == 3) ans.emplace_back(1, i);
+    }
+    for (auto x : st) {
+        dfs2(x);
+    }
+
+    cout << ans.size() << '\n';
+    for (auto [l, r] : ans) {
+        cout << l << ' ' << r << '\n';
+    }
 }
 ```
 
