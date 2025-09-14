@@ -15,6 +15,8 @@ tag:
 cout << fixed << setprecision(2) << (double) ans / n;
 ```
 
+注意：不加fixed是四舍五入模式，而且是保留2位**有效数字**。
+
 ## 读入一整行，再以空格split
 
 ```cpp
