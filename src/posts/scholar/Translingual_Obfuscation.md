@@ -547,3 +547,29 @@ CPU 密集型应用包括：**代数变换（bzip2）**、**整数运算（mcf�
 ## 10. 结论（Conclusion）
 
 本文提出了**跨语言混淆**：一种**基于将程序从一种语言翻译到另一种语言**的新型软件混淆方案。通过利用目标语言的某些**设计与实现特性**，我们能使原程序**抵御逆向工程**。我们实现了 **BABEL**，一个把 **C 程序的部分**翻译为 **Prolog** 的工具，并借助 **Prolog** 独特的语言特性使程序更加晦涩。我们从**强度、抗性、成本与隐蔽性**四个维度，对一组**真实世界的 C 程序（类别各异）**进行了评估。实验结果表明：**跨语言混淆**是一种**足够有效且切实可行**的软件保护技术。
+
+## Citations
+
+### Diversification and obfuscation techniques for software security: A systematic literature review
+
+> Information and Software Technology（2018）、CCF B
+
+### Layered obfuscation: a taxonomy of software obfuscation techniques for layered security
+
+> Cybersecurity（2020）、CCF C
+
+### Challenging machine learning-based clone detectors via semantic-preserving code transformations
+
+> TSE 2023、CCF A
+
+[Click to jump](./通过语义保持代码转换挑战基于机器学习的克隆检测器.html)
+
+### Wobfuscator: Obfuscating javascript malware via opportunistic translation to webassembly
+
+> SP 2022、CCF A
+
+[Click to jump](./Wobfuscator：通过选择性地翻译到WASM来混淆JavaScript恶意软件.html)
+
+### MBA-Blast: Unveiling and Simplifying Mixed Boolean-Arithmetic Obfuscation
+
+> USENIX Security Symposium (SECURITY)（2021）、CCF A

@@ -468,3 +468,13 @@ Wobfusctor基于静态分析来定位恶意软件检测器，尽管它可以有�
 ## References
 
 
+## Citations
+
+### XMal: A lightweight memory-based explainable obfuscated-malware detector
+
+> Computers & Security 2023、CCF B
+
+### Finding the Dwarf: Recovering Precise Types from WebAssembly Binaries
+
+> PLDI 2022、CCF A
+
