@@ -1,6 +1,8 @@
 ---
 icon: pen-to-square
 date: 2025-10-13
+category:
+  - Rust
 tag:
   - c2rust
 ---
