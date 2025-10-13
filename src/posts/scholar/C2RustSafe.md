@@ -107,6 +107,8 @@ transpiler, safety, measurement, refactoring, code transformation
 
 > Computer Aided Verification (CAV 2023)、CCF A
 
+[Click to jump](./Ownership_Guided_C_to_Rust_Translation.html)
+
 ### Don’t Write, but Return: Replacing Output Parameters with Algebraic Data Types in C-to-Rust Translation
 
 > Proceedings of the ACM on Programming Languages (PACMPL) - PLDI 2024、CCF A
