@@ -101,6 +101,45 @@ transpiler, safety, measurement, refactoring, code transformation
 
 该团队对我们的工具给予了高度评价，认为它“**很快就产出了一个 Rust 初始实现**，并为后续工作提供了**坚实的踏板**”。与此同时，他们也指出了工具的若干不足，主要集中在**C 宏**与**枚举（enum）**处理方面；这些问题**已纳入**我们的改进计划。
 
+## Citation
 
+### Ownership Guided C to Rust Translation
 
+> Computer Aided Verification (CAV 2023)、CCF A
+
+### Don’t Write, but Return: Replacing Output Parameters with Algebraic Data Types in C-to-Rust Translation
+
+> Proceedings of the ACM on Programming Languages (PACMPL) - PLDI 2024、CCF A
+
+论文提出把c风格的输出参数替换为Rust风格的函数返回值
+
+### Concrat: An automatic C-to-Rust lock API translator for concurrent programs
+
+> ICSE 2023、CCF A
+
+把C风格的锁替换为Rust的锁API
+
+### VERT: Verified Equivalent Rust Transpilation with Large Language Models as Few-Shot Learners
+
+> [arXiv预印本](https://arxiv.org/abs/2404.18852)
+
+提出了 VERT：先把源语言经由 WebAssembly 编译成“正确性先验”的 Rust 参考程序，再用 LLM 生成可读的候选 Rust，并通过形式化验证与参考程序对比；若验证失败就迭代重生成，最终得到既可读、又具正确性保证的 Rust 翻译。
+
+### EVOC2RUST: A Skeleton-guided Framework for Project-Level C-to-Rust Translation
+
+> [arXiv预印本](https://arxiv.org/abs/2508.04295)
+
+采用骨架引导式翻译策略实现项目级转换
+
+### Towards a Transpiler for C/C++ to Safer Rust
+
+> [arXiv预印本](https://arxiv.org/abs/2401.08264)
+
+C++ to Rust
+
+### Integrating Rules and Semantics for LLM-Based C-to-Rust Translation
+
+> [arXiv预印本](https://arxiv.org/abs/2508.06926)
+
+该论文针对遗留 C 代码自动翻译到 Rust 的难题，指出早期规则法覆盖有限、直接用 LLM 翻译又常违反 Rust 规则且语义不一致。为此提出 IRENE 框架，结合规则增强检索（由自研静态分析器生成规则选例）、结构化摘要引导语义理解与基于编译器诊断的迭代纠错，并在 xCodeEval 与华为 HW-Bench 上用八种 LLM 评估其翻译准确性与安全性。
 
