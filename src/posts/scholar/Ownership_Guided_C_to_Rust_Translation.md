@@ -11,6 +11,8 @@ tag:
 
 论文来自 Computer Aided Verification (CAV 2023) 的《[Ownership Guided C to Rust Translation](https://link.springer.com/chapter/10.1007/978-3-031-37709-9_22)》。
 
+[Github](https://github.com/KomaEc/crown) | [zenodo](https://zenodo.org/records/7966511)
+
 ## 摘要
 
 Rust 常被称为更安全的 C，它是一门将内存安全与低层次控制相结合的现代编程语言。正是这种有趣的组合，使得 Rust 在开发者中非常流行；同时，也出现了将遗留代码库（通常是 C）迁移到 Rust 的增长趋势。本文提出了一种以静态所有权分析为核心的 C→Rust 翻译方法。我们设计了一套分析来推断 C 指针的所有权模型，并将这些指针自动转换为在 Rust 中的安全等价物。由此产生的工具 **CROWN** 能够扩展到真实世界的代码库（在不到 10 秒内处理 50 万行代码），并且实现了较高的转换率。
