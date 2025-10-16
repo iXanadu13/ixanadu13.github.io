@@ -279,7 +279,9 @@ RustSan 按**对象的安全类别**为对象“着色”。**不安全对象**�
 **跨安全级别的内存访问校验（Cross-safety memory access validation）。**  
 RustSan 引入一种独特的**跨安全级别**内存访问校验模型：对**伪安全**与**不安全**访问点施加**不同**的内存访问校验逻辑（见 *Listing 2*）。  
 
-![](/assets/images/scholar/RustSan/listing2.png)
+<div style="width: 100%; margin: auto; text-align: center;">
+  <img src="/assets/images/scholar/RustSan/listing2.png" style="width: 70%;" />
+</div>
 
 - 对**不安全访问点**，只要影子字节值**非零**，RustSan 就报告**非法访问错误**（*Listing 2a*）。这意味着：对 **洋红色（安全对象）** 与 **粉色（重叠对象）** 的访问都会在 sanitizer 检查时被发现。  
 - 另一方面，**伪安全访问点**被允许访问**粉色的重叠对象**，因此它们既可以访问**不安全对象**，也可以访问**重叠对象**（*Listing 2b*）。
@@ -328,7 +330,9 @@ RustSan 的影子内存方案在**不安全**与**伪安全**访问点上**完�
 **检测结果（Detection results）。**  
 **表2** 重点列出了 52 个复现案例中的 **31** 个，用以展示 **RustSan** 的**稳健性**。这些案例是通过**内联的影子内存检查**（受 RustSan 的**选择性插桩**控制）检出的。尽管 **RustSan** **大幅减少**了 Rust 程序中的影子内存检查（见 **Table 1**），但**所有 CVE 案例**都**成功检出**。另外 **21** 个未在 **Table 2** 列出的复现案例（如**双重释放**），是通过**拦截标准库调用**（例如 `free`）来检测的；这部分不受 **RustSan** 的“检查消除”影响，因而如预期般被 **RustSan** 检出。
 
-![](/assets/images/scholar/RustSan/table2.png)
+<div style="width: 100%; margin: auto; text-align: center;">
+  <img src="/assets/images/scholar/RustSan/table2.png" style="width: 50%;" />
+</div>
 
 **伪安全访问点中的内存错误（Memory errors in false-safe sites）。**  
 **Table 2** 的 **FS/U\*** 列显示：31 个复现的内存错误中，有 **21 个**是**在伪安全访问点**被检测到的。我们还在 `unsafe` 内部的内存指令上**额外放置插桩**，由此识别出 **10** 个**位于 `unsafe` 内部**的案例。大量**发生在伪安全内存指令**上的错误，进一步印证了 **RustSan** 对**伪安全访问点识别**的**准确性**，以及所改造的**影子内存方案**的**正确性**。我们对这 21 个伪安全案例中的部分 CVE 做了**人工复核**；例如在**附录 A（Appendix A）**中，我们给出了一个**堆溢出**（CVE-2018-21000）与一个 **use-after-free**（CVE-2021-45713）的**代码示例**。
@@ -337,7 +341,9 @@ RustSan 的影子内存方案在**不安全**与**伪安全**访问点上**完�
 
 本节评估 **RustSan** 的独有能力——§6.2 所述的**对安全对象访问的检测**。我们准备了两个**合成示例**，展示来自 **unsafe** 与 **false-safe** 位置对**安全对象**进行破坏的情形（见 *Listing 3*）。
 
-![](/assets/images/scholar/RustSan/listing3.png)
+<div style="width: 100%; margin: auto; text-align: center;">
+  <img src="/assets/images/scholar/RustSan/listing3.png" style="width: 70%;" />
+</div>
 
 之所以采用合成示例而不是真实漏洞，是因为真实案例往往**难以定位与复现**。许多真实世界的内存错误是通过 ASan 的**对象间 redzone（inter-object redzones）**首先被发现的。我们发现：如果一个错误发生在 **unsafe** 或 **false-safe** 访问点，并且**不触碰任何对象间 redzone**，而只是**破坏了安全对象的内容**（即**对象内部破坏，intra-object corruption**），则 ASan 往往**不会报警**，而且这样的真实案例过于**特定**、难以识别与复现。两个示例均受到真实 CVE（CVE-2017-1000430 与 CVE-2018-21000）的启发，并做了轻微改动，使攻击者可以对**安全对象**任意进行内存破坏。在 *Listing 3a* 与 *Listing 3b* 中，攻击者分别可以在 **unsafe** 与 **false-safe** 访问点处控制函数实参，使其指向**安全对象**。
 
@@ -507,7 +513,9 @@ Sanitizer 往往带来**很高的运行时开销**，因此已有大量工作尝
 
 我们在此给出若干**案例研究**，分析 Rust 中内存错误的根因以及 **RustSan** 对它们的检测。
 
-![](/assets/images/scholar/RustSan/listing4.png)
+<div style="width: 100%; margin: auto; text-align: center;">
+  <img src="/assets/images/scholar/RustSan/listing4.png" style="width: 50%;" />
+</div>
 
 #### 案例 1：CVE-2018-21000
 该 CVE 属于 Rust 对 `transmute` 的实现中的**堆溢出**。问题的根源在 *Listing 4a* 的第 5 行：`Vec::from_raw_parts` 是 Rust 标准库函数，用于从**原始指针**构造新的向量对象，函数参数依次为**向量长度**与**容量**。这里的错误是**第二、第三个参数的顺序被颠倒**。在 Rust 术语中，**容量**（capacity）表示为未来插入元素所预留的**最大空间**，而**长度**（length）表示当前向量中**实际元素个数**。因此，被错误构造的向量极易在后续使用中导致**对象边界之外**的内存访问。在我们的复现中，**RustSan** 报告了在一个**伪安全站点**（false-safe site）上，对一个**不安全对象**触及了**对象末端 redzone** 的访问。
