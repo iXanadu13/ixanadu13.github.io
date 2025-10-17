@@ -9,6 +9,8 @@ category:
 
 论文收录于第33届 USENIX Security Symposium（USENIX Security ’24，CCF A） 的会议论文集，链接：[https://www.usenix.org/conference/usenixsecurity24/presentation/cho-kyuwon](https://www.usenix.org/conference/usenixsecurity24/presentation/cho-kyuwon)。
 
+[Github](https://github.com/sslab-skku/RustSan)
+
 ## 摘要
 
 Rust 正在作为一种安全的系统编程语言迅速普及，凭借其强类型与内存安全保证而受到关注。然而，Rust 的保障并非牢不可破。使用 *unsafe Rust*（Rust 的一个子变体）时，程序员可以暂时跳出 Rust 严格的语言语义，以安全换取灵活性；但 `unsafe` 代码块中的内存错误会对程序安全造成深远影响。因此，传统的动态内存错误检测（如模糊测试 *fuzzing*）已成为 Rust 生态中的常见实践，并通过不断披露的 CVE 战果证明了其有效性。
