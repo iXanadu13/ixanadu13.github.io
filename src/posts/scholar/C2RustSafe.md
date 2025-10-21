@@ -133,6 +133,8 @@ transpiler, safety, measurement, refactoring, code transformation
 
 > [arXiv预印本](https://arxiv.org/abs/2508.04295)
 
+[Click to jump](./EVOC2RUST：用于项目级C到Rust转换的骨架引导框架.html)
+
 采用骨架引导式翻译策略实现项目级转换
 
 ### Towards a Transpiler for C/C++ to Safer Rust
