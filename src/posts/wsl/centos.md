@@ -15,11 +15,13 @@ tag:
 
 ![](/assets/images/wsl/Curl-error35.png)
 
-依次执行以下命令即可：
+连接美国网络（比如去国外旅游，然后连接当地Wifi），然后依次执行以下命令即可：
 
 ```bash
 sudo update-crypto-policies --set DEFAULT
 sudo dnf clean all
 sudo dnf update
 ```
+
+换国内镜像源：[https://www.cnblogs.com/LandWind/p/centos-stream-9-repo-set-aliyun.html](https://www.cnblogs.com/LandWind/p/centos-stream-9-repo-set-aliyun.html)
 
