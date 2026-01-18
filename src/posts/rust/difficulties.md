@@ -89,6 +89,78 @@ assert_eq!(x, y.transpose());
 </div>
 
 
+## 类型推断 + impl Trait 问题
+
+错误代码：
+
+![](/assets/images/rust/impl-fn-wrong.png)
+
+在传`None`处，编译器完全不知道这个 `Fn` 的具体类型是什么，所以报错。
+
+### 方案一：把 `impl Fn` 提升为泛型参数
+
+#### 修改签名
+
+```rs
+pub fn generate<F>(
+    self,
+    w: &mut BufWriter,
+    resolver: &mut CPoolResolver,
+    attr_span: Span,
+    label2pos: Option<F>,
+) -> Result<(), Error<Any>>
+where
+    F: Fn(Spanned<String>) -> Result<Spanned<u32>, Error<Normal>>,
+{
+    ...
+}
+```
+
+#### 使用方式
+
+```rs
+attr.generate(w, resolver, span, Some(label2pos))?;
+attr.generate::<fn(Spanned<String>) -> _>(w, resolver, span, None)?;
+```
+
+![](/assets/images/rust/impl-fn-fix1.png)
+
+### 方案二：使用 trait object
+
+这是 API 设计上最干净、调用最舒服的方式。
+
+#### 修改签名
+
+```rs
+pub fn generate(
+    self,
+    w: &mut BufWriter,
+    resolver: &mut CPoolResolver,
+    attr_span: Span,
+    label2pos: Option<&dyn Fn(Spanned<String>) -> Result<Spanned<u32>, Error<Normal>>>,
+) -> Result<(), Error<Any>> {
+    ...
+}
+```
+
+#### 使用方式
+
+```rs
+attr.generate(w, resolver, span, Some(&label2pos))?;
+attr.generate(w, resolver, span, None)?;
+```
+
+- ✅ 完全解决问题
+- ✅ 调用点最清爽
+- ⚠️ 只有一次动态分发，通常可以忽略
+
+![](/assets/images/rust/impl-fn-fix2.png)
+
+### 方案三：如果你其实只需要函数指针
+
+如果 `label2pos` 不是捕获环境的闭包，直接用函数指针`fn(Spanned<String>) -> Result<Spanned<u32>, Error<Normal>>>`即可。
+
+
 ## 使用原生指针和unsafe实现自引用
 
 algo.course.rs上的实现，在此记录一下
