@@ -1,2 +1,5 @@
-*.html linguist-generated
+# VuePress public html，不参与语言统计
 src/.vuepress/public/**/*.html linguist-generated
+src/.vuepress/public/**/*.html linguist-language=Text
+
+*.html linguist-generated
