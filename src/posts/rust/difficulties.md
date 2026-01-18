@@ -19,6 +19,76 @@ Rust的困难，不在于语言特性，而在于：
 - 遇到了坑时（生命周期、借用错误，自引用等）如何迅速、正确的解决
 - 大量的标准库API的熟练使用，这是保证开发效率的关键
 
+## 错误处理相关
+
+### 将Option类型转换为Result类型
+
+使用`ok_or`方法：
+
+```rust
+fn foo(abs_path: &str) -> Result<String, String> {
+    let path = PathBuf::from(abs_path);
+    let relative = path.file_name()
+        .ok_or(format!("Failed to get relative_name for `{}`", abs_path))?;
+    let res = relative.to_str().unwrap();
+    Ok(res.to_owned())
+}
+```
+
+### 将Result类型转换为Option类型
+
+使用`ok`方法：
+
+```rust
+fn divide(dividend: f64, divisor: f64) -> Result<f64, String> {
+    if divisor == 0.0 {
+        Err(String::from("除数不能为零"))
+    } else {
+        Ok(dividend / divisor)
+    }
+}
+#[test]
+fn test_divide() {
+    let result_ok: Result<f64, String> = divide(10.0, 2.0);
+    let option_some: Option<f64> = result_ok.ok();
+    assert_eq!(option_some, Some(5.0));
+
+    let result_err: Result<f64, String> = divide(10.0, 0.0);
+    let option_none: Option<f64> = result_err.ok();
+    assert_eq!(option_none, None);
+}
+```
+
+### Option#transpose()
+
+将`Option<Result<T, E>>`转换为`Result<Option<T>, E>`：
+
+```rust
+#[derive(Debug, Eq, PartialEq)]
+struct SomeErr;
+
+let x: Result<Option<i32>, SomeErr> = Ok(Some(5));
+let y: Option<Result<i32, SomeErr>> = Some(Ok(5));
+assert_eq!(x, y.transpose());
+```
+
+实际应用：
+
+<div style="width: 100%; margin: auto; text-align: center;">
+  <img src="/assets/images/rust/transpose-before.png" style="width: 70%;" />
+  <p style="font-size: 0.95em;"><strong>
+    Before
+  </strong></p>
+</div>
+
+<div style="width: 100%; margin: auto; text-align: center;">
+  <img src="/assets/images/rust/transpose-after.png" style="width: 70%;" />
+  <p style="font-size: 0.95em;"><strong>
+    After
+  </strong></p>
+</div>
+
+
 ## 使用原生指针和unsafe实现自引用
 
 algo.course.rs上的实现，在此记录一下
@@ -389,60 +459,6 @@ fn main() {
     });
 }
 ```
-
-## 错误处理相关
-
-### 将Option类型转换为Result类型
-
-使用`ok_or`方法：
-
-```rust
-fn foo(abs_path: &str) -> Result<String, String> {
-    let path = PathBuf::from(abs_path);
-    let relative = path.file_name()
-        .ok_or(format!("Failed to get relative_name for `{}`", abs_path))?;
-    let res = relative.to_str().unwrap();
-    Ok(res.to_owned())
-}
-```
-
-### 将Result类型转换为Option类型
-
-使用`ok`方法：
-
-```rust
-fn divide(dividend: f64, divisor: f64) -> Result<f64, String> {
-    if divisor == 0.0 {
-        Err(String::from("除数不能为零"))
-    } else {
-        Ok(dividend / divisor)
-    }
-}
-#[test]
-fn test_divide() {
-    let result_ok: Result<f64, String> = divide(10.0, 2.0);
-    let option_some: Option<f64> = result_ok.ok();
-    assert_eq!(option_some, Some(5.0));
-
-    let result_err: Result<f64, String> = divide(10.0, 0.0);
-    let option_none: Option<f64> = result_err.ok();
-    assert_eq!(option_none, None);
-}
-```
-
-### Option#transpose()
-
-将`Option<Result<T, E>>`转换为`Result<Option<T>, E>`：
-
-```rust
-#[derive(Debug, Eq, PartialEq)]
-struct SomeErr;
-
-let x: Result<Option<i32>, SomeErr> = Ok(Some(5));
-let y: Option<Result<i32, SomeErr>> = Some(Ok(5));
-assert_eq!(x, y.transpose());
-```
-
 
 ## 全局变量
 
