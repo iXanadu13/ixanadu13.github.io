@@ -1,1 +1,2 @@
-*.html linguist-generated # 禁用html语言统计
+*.html linguist-generated
+src/.vuepress/public/**/*.html linguist-generated
