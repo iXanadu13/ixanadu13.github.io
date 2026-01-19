@@ -161,6 +161,13 @@ attr.generate(w, resolver, span, None)?;
 如果 `label2pos` 不是捕获环境的闭包，直接用函数指针`fn(Spanned<String>) -> Result<Spanned<u32>, Error<Normal>>>`即可。
 
 
+## 条件编译
+
+如果你希望某段代码在`debug`（默认 `cargo run` / `cargo test`）时启用，但在`release`模式下不启用，
+请使用 `#[cfg(debug_assertions)]` **而不是** `#[cfg(test)]`。
+
+`#[cfg(test)]` 只在「当前 crate 作为 **测试目标** 编译时」才生效。
+
 ## 使用原生指针和unsafe实现自引用
 
 algo.course.rs上的实现，在此记录一下
