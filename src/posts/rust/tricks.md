@@ -57,7 +57,7 @@ pub struct Graph {
 }
 ```
 
-## Rust中的@lombok.Delegate
+## `@lombok.Delegate` in Rust
 
 ```rs
 #[derive(Default)]
@@ -95,6 +95,11 @@ impl<'a> std::ops::DerefMut for A {
     }
 }
 ```
+
+## 测试
+
+运行当前workspace中的所有子项目的测试（包括`Doc-tests`）：`cargo test --workspace`
+
 
 
 ## Ref
