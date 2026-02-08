@@ -44,3 +44,28 @@ git push -f
 ```bash
 git diff branch_old branch_new --stat
 ```
+
+## 更新子模块信息
+
+如果直接修改.gitmodules文件，子模块路径的修改是无效的，例如尝试在已不再属于子模块的路径中使用`git add`，命令依旧会失败。
+
+正确的更新方式如下：
+
+### 1. 删除旧的子模块信息
+
+::: danger
+注意`git rm`命令会删除路径下所有文件和文件夹，请先做好备份
+:::
+
+```bash
+git submodule deinit -f decompilation-test/test-data
+git rm -f decompilation-test/test-data
+```
+
+### 2. 添加新模块信息
+
+```bash
+git submodule add \
+  https://github.com/leibnitz27/cfr_tests.git \
+  decompilation-test/test-data/precompiled_tests
+```
