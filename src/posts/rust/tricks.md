@@ -59,7 +59,7 @@ pub struct Graph {
 
 ## `@lombok.Delegate` in Rust
 
-```rs
+```rust
 #[derive(Default)]
 struct A {
     inner: B,
