@@ -739,6 +739,115 @@ for (auto it = bank.begin(); it != bank.end(); ) {
 
 ```
 
+## J4RS
+
+> [j4rs](https://github.com/astonbitecode/j4rs) 可以进行快速的`Rust` + `Java`跨语言开发
+
+有时候我需要在Java侧主动调用Rust侧的函数，我们可以使用 [#[call_from_java()]](https://github.com/astonbitecode/j4rs?tab=readme-ov-file#java-to-rust-support)。但实际上被标记为`#[call_from_java()]`的函数和主程序是不共享内存空间的，因为`call_from_java implies that Java world loads your native library`。曾经我使用`Once::call_once`解决了`#[call_from_java()]`函数中logger未初始化的[问题](https://github.com/astonbitecode/j4rs/issues/144)，但实际上这并不是最优解。其实我们可以利用callback建立一个跨Java和Rust的持久channel：
+
+Java层写法：
+
+```Java
+package com.github.ixanadu13.ruffee.bridge;
+
+import org.astonbitecode.j4rs.api.invocation.NativeCallbackToRustChannelSupport;
+
+public class RustBridge extends NativeCallbackToRustChannelSupport {
+    private static RustBridge INSTANCE;
+
+    public RustBridge() {
+        INSTANCE = this;
+    }
+
+    public void init() {
+        // no-op
+    }
+
+    public static RustBridge get() {
+        return INSTANCE;
+    }
+
+    public void incProgress(double progress, String msg) {
+        String json = "{\"progress\":" + progress +
+            ",\"msg\":\"" + msg + "\"}";
+        doCallback(json);
+    }
+}
+```
+
+Rust层初始化函数实现：
+
+```rust
+#[derive(Serialize, Deserialize, Clone)]
+pub struct ProgressInc {
+    pub progress: f64,
+    pub msg: String,
+}
+
+const TASK_EVENT: &str = "task-event";
+
+pub(super) fn start_jvm_callback_thread(handle: AppHandle) {
+    let _ = std::thread::Builder::new()
+        .name(String::from("JVM_CALLBACK"))
+        .spawn(move || {
+            let jvm = jna::jvm().unwrap();
+        
+            let instance = jvm.create_instance(
+                "com.github.ixanadu13.ruffee.bridge.RustBridge",
+                InvocationArg::empty(),
+            ).unwrap();
+            
+            // 只调用一次
+            let receiver = jvm.invoke_to_channel(
+                &instance,
+                "init",
+                InvocationArg::empty(),
+            ).unwrap();
+            
+            let rx = receiver.rx();
+            
+            while let Ok(instance) = rx.recv() {
+                let json: String = jvm.to_rust(instance).unwrap();
+        
+                let ProgressInc { progress, msg } = serde_json::from_str(&json).unwrap();
+                // TODO: 不同task类型
+                let payload = TaskEvent {
+                    task: TaskKind::InitWorkspace,
+                    stage: TaskStage::IncreaseProgress,
+                    progress: Some(progress),
+                    message: Some(msg),
+                };
+
+                let _ = handle.emit(TASK_EVENT, payload);
+            }
+        })
+        .unwrap();
+}
+```
+
+在tauri启动的setup阶段调用：
+
+```RUST
+tauri::Builder::default()
+    .setup(|app| { // [!code ++]
+        let handle = app.handle().clone(); // [!code ++]
+        set_app_handle(handle.clone()); // [!code ++]
+        log::info!("channel initialized"); // [!code ++]
+        task_man::start_jvm_callback_thread(handle); // [!code ++]
+        Ok(()) // [!code ++]
+    }) // [!code ++]
+    .manage(AppState::default())
+    // to filter debug logs of j4rs
+    .plugin(tauri_plugin_log::Builder::new().level(log::LevelFilter::Info).build())
+    .plugin(tauri_plugin_dialog::init())
+    .plugin(tauri_plugin_store::Builder::default().build())
+    .plugin(tauri_plugin_os::init())
+    .plugin(tauri_plugin_fs::init())
+    .plugin(tauri_plugin_opener::init())
+```
+
+初始化完毕后，Java层只需要调用`RustBridge.get()`就能拿到`RustBridge`实例，然后通过callback就能直接向Rust层发送信息了。
+
 ## Ref
 - https://github.com/rustcn-org/rust-algos/blob/fbcdccf3e8178a9039329562c0de0fd01a3372fb/src/unsafe/self-ref.md
 - https://crates.io/crates/lazy_static
