@@ -111,6 +111,14 @@ export default hopeTheme({
       components: ["Badge", "VPCard"],
     },
 
+    // see: https://theme-hope.vuejs.press/guide/markdown/code/fence.html#notation-diff
+    shiki: {
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+      notationDiff: true
+    },
     // These features are enabled for demo, only preserve features you need here
     markdownImage: {
       figure: true,
